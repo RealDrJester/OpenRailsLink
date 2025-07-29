@@ -6,7 +6,7 @@ OpenRailsLink
 
 ![alt text](https://img.shields.io/badge/status-active-success.svg)
 
-A versatile and powerful control interface for the Open Rails simulator, designed to bridge the gap between your hardware and the virtual cab. OpenRailsLink allows you to connect and map multiple joysticks, yokes, and even the Saitek Pro Flight Switch Panel for an immersive train simulation experience.
+A versatile and powerful control interface for the Open Rails simulator, designed to bridge the gap between your hardware and the virtual cab. OpenRailsLink allows you to connect and map multiple joysticks, yokes, and even the Saitek Pro Flight Switch Panel for an immersive train simulation experience.A workaround until full joystick if implemented into the simulator. 
 
 <img width="1442" height="832" alt="image" src="https://github.com/user-attachments/assets/b7a1f198-eae2-4454-8527-faff3cbb0a86" />
 
