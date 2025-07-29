@@ -10,7 +10,7 @@ A versatile and powerful control interface for the Open Rails simulator, designe
 
 <img width="1442" height="832" alt="image" src="https://github.com/user-attachments/assets/b7a1f198-eae2-4454-8527-faff3cbb0a86" />
 
-💡 Core Features
+--- 💡 Core Features ---
 
    *Multi-Device Support: Connect and use multiple joysticks, gamepads, and other HID devices simultaneously.
 
@@ -26,7 +26,7 @@ A versatile and powerful control interface for the Open Rails simulator, designe
 
    *Integrated Game Launcher: Configure and launch different Open Rails installations or profiles directly from the application.
 
-⚙️ Requirements
+--- ⚙️ Requirements ---
 
 Before you begin, ensure you have the following installed:
 
@@ -45,7 +45,7 @@ Before you begin, ensure you have the following installed:
 
     
 
-🚀 Installation & First-Time Use
+--- 🚀 Installation & First-Time Use ---
 
     Clone the Repository:
     
@@ -72,7 +72,7 @@ Launch the Application:
 
         The status label should change to CONNECTED in green once Open Rails is running and the application connects.
 
-📖 How to Use
+--- 📖 How to Use ---
 Binding Controls
 
 The heart of OpenRailsLink is the bindings editor.
@@ -89,7 +89,7 @@ The heart of OpenRailsLink is the bindings editor.
 
     Click Apply & Close to save the new bindings to your current session.
 
-Saving and Loading Profiles
+--- Saving and Loading Profiles ---
 
     File > Save Profile As...: Save your current set of bindings to an .xml file for later use.
 
@@ -97,7 +97,7 @@ Saving and Loading Profiles
 
     File > Set Current as Default Profile: Makes the currently loaded profile open automatically every time you start OpenRailsLink.
 
-The Game Launcher
+--- The Game Launcher ---
 
     Click Edit Launchers... to open the launcher configuration dialog.
 
@@ -109,7 +109,7 @@ The Game Launcher
 
     Close the editor to save. The buttons on the main window will update automatically.
 
-🔧 Configuration Files
+--- 🔧 Configuration Files ---
 
 OpenRailsLink uses two main types of configuration files:
 
@@ -117,7 +117,7 @@ OpenRailsLink uses two main types of configuration files:
 
     Profile .xml files: Store the actual control bindings and the list of active devices for a specific configuration. These are created when you use "Save Profile."
 
-🚑 Troubleshooting
+--- 🚑 Troubleshooting ---
 
     Controller not detected:
 
@@ -149,7 +149,7 @@ OpenRailsLink uses two main types of configuration files:
 
         For a toggle switch that seems backward, try swapping the "ON" and "OFF" event bindings.
 
-Contributing
+--- Contributing ---
 
 Contributions are welcome! If you'd like to contribute, please feel free to fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 Code Structure
@@ -163,6 +163,18 @@ Code Structure
     web_interface.py: Manages all network communication (HTTP and WebSockets) with the Open Rails simulator.
 
     definitions.py: The master dictionary defining all controllable functions. This acts as the "source of truth" for the application's capabilities.
+
+
+
+--- Known bugs/issues ---
+
+    1. CP_Handle will not move the slider, but information is being sent.
+    2. Bell for some reason doesn't work or is sent. Same problem happens in the javascript version of the game.
+    3. "Instrument Lights" sends Pantograph 1. 
+    4. Can't seem to find a way to add other joysticks, like Thrustmaster MFD1. But At least Saitek Switch Panel works. 
+    5. I do not own other Saitek panels, so I cannot add or test them. This will be up to you. 
+    6. Some buttons sent by the program will cause the game to crash. Either because the ID is wrong, or the game is not prepared to receive them. Caution is advised when clicking them randomly.
+    7. Some IDs seems not to match. Until I find the proper IDs, it will be left based on what the AI found. Like "Instrument Lights" raises and lowers the Pantograph. 
 
 License
 
