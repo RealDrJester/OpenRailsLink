@@ -60,10 +60,8 @@ Connect Hardware:
 Plug in all your joysticks and the Saitek Switch Panel before launching the application.
 
 Launch the Application:
-Generated bash
-
       
-python OpenRailsLink.py
+    *  python OpenRailsLink.py
 
     
     Initial Setup:
