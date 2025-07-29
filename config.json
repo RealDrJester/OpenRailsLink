@@ -1,0 +1,29 @@
+{
+  "settings": {
+    "default_profile_path": "F:/#devkit/#CONTROLLER/OpenRailsWebControl/OpenRails1.xml",
+    "openrails_executable_path": "G:/##OPENRAILS##/Games/OR_NewYear_MG/OpenRails64.exe",
+    "launcher_profiles": [
+      {
+        "name": "New Profile",
+        "exe": "C:/",
+        "args": ""
+      },
+      {
+        "name": "New Profile",
+        "exe": "C:/",
+        "args": ""
+      }
+    ]
+  },
+  "about": {
+    "title": "About OpenRailsLink Controller ",
+    "version": "1.0",
+    "date": "2025-07-26",
+    "author": "DrJester",
+    "text": "This application provides an advanced control interface for the Open Rails simulator, allowing for the use of multiple joystick/HID devices with fully customizable bindings.",
+    "link1_text": "Visit my work:",
+    "link1_url": "https://linktr.ee/DrJester",
+    "link2_text": "View Project on GitHub",
+    "link2_url": "https://github.com/RealDrJester/"
+  }
+}

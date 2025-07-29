@@ -1,0 +1,6 @@
+PyQt5
+pygame
+requests
+websockets
+lxml
+hidapi
