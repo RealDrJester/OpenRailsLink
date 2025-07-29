@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QH
                              QGridLayout, QFrame, QListWidgetItem, QSizePolicy, QInputDialog,
                              QTextEdit, QDockWidget, QFileDialog, QDialog, QCheckBox, QFormLayout, QFileIconProvider,
                              QToolButton, QDialogButtonBox, QScrollArea)
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, QDateTime, QFileInfo, QSize, pyqtSignal
 from functools import partial
 
@@ -14,6 +14,17 @@ from definitions import CONTROL_DEFINITIONS
 from controls import JoystickManager, BindingsEditor
 from web_interface import OpenRailsWebInterface
 from hid_manager import SaitekPanelManager
+
+# --- HELPER FUNCTION TO FIND FILES WHEN COMPILED ---
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 STYLE_SHEET = """
 QMainWindow, QWidget { background-color: #282828; color: #E0E0E0; font-family: 'Segoe UI', sans-serif; }
@@ -161,7 +172,16 @@ class MainAppWindow(QMainWindow):
         self.slider_last_values = {}
         self.joystick_manager = JoystickManager(self); self.saitek_manager = SaitekPanelManager(self); self.web_interface = OpenRailsWebInterface(self)
         self.launcher_editor = LauncherEditor(self)
-        self.load_app_config(); self.init_ui(); self.connect_signals()
+
+        # --- CORRECTED INITIALIZATION ORDER ---
+        # 1. Build the UI first, which creates the debug_log widget.
+        self.init_ui()
+        # 2. Now load the config. If it fails, log_message will work.
+        self.load_app_config()
+        # 3. Connect signals now that all widgets and managers exist.
+        self.connect_signals()
+        
+        # --- Continue with startup logic ---
         self.log_message(f"Found {len(self.joystick_manager.get_devices())} joystick(s) during startup scan.", "APP")
         if self.saitek_manager.is_connected(): self.log_message("Found Saitek Switch Panel.", "APP")
         self.web_interface.start()
@@ -225,6 +245,16 @@ class MainAppWindow(QMainWindow):
                  sliders_layout.addWidget(label, row, 0)
             sliders_layout.addWidget(slider, row, 1); self.gui_controls[id] = slider; row += 1
         sliders_main_layout.addLayout(sliders_layout)
+        
+        # Add decorative icon below sliders
+        icon_label = QLabel()
+        icon_path = resource_path("icon.png") # MODIFIED: Use helper function
+        if os.path.exists(icon_path):
+            pixmap = QPixmap(icon_path)
+            icon_label.setPixmap(pixmap.scaled(96, 96, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        icon_label.setAlignment(Qt.AlignCenter)
+        sliders_main_layout.addWidget(icon_label)
+        
         sliders_main_layout.addStretch()
         
         button_tabs = QTabWidget()
@@ -607,14 +637,19 @@ class MainAppWindow(QMainWindow):
 
     def load_app_config(self):
         try:
-            with open("config.json", 'r') as f: self.config = json.load(f)
+            with open(resource_path("config.json"), 'r') as f: self.config = json.load(f) # MODIFIED
         except (FileNotFoundError, json.JSONDecodeError):
             self.log_message("config.json not found or invalid. Creating default config.", "WARN")
             self.config = {"settings": {"default_profile_path": "","launcher_profiles": []},"about": {"title": "About", "text": "Default config."}}; self.save_app_config()
             
     def save_app_config(self):
         try:
-            with open("config.json", 'w') as f: json.dump(self.config, f, indent=2)
+            # MODIFIED: Logic to save config next to exe when compiled
+            if getattr(sys, 'frozen', False):
+                path = os.path.join(os.path.dirname(sys.executable), "config.json")
+            else:
+                path = "config.json"
+            with open(path, 'w') as f: json.dump(self.config, f, indent=2)
         except Exception as e: self.log_message(f"Error saving config.json: {e}", "ERROR")
         
     def set_default_profile(self):
@@ -625,19 +660,35 @@ class MainAppWindow(QMainWindow):
     def show_about_dialog(self):
         about_info = self.config.get("about", {}); dialog = QDialog(self); dialog.setWindowTitle(about_info.get("title", "About"))
         layout = QVBoxLayout(dialog)
+        
+        icon_label = QLabel()
+        icon_path = resource_path("icon.png") # MODIFIED: Use helper function
+        if os.path.exists(icon_path):
+            pixmap = QPixmap(icon_path)
+            icon_label.setPixmap(pixmap.scaled(128, 128, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        icon_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(icon_label)
+
         for key in ["version", "date", "author", "text"]:
-            if key in about_info: layout.addWidget(QLabel(about_info[key]))
+            if key in about_info:
+                label = QLabel(about_info[key])
+                label.setAlignment(Qt.AlignCenter)
+                layout.addWidget(label)
+        
         for i in [1, 2]:
             if f"link{i}_url" in about_info and f"link{i}_text" in about_info:
                 link_label = QLabel(f'<a href="{about_info[f"link{i}_url"]}">{about_info[f"link{i}_text"]}</a>')
-                link_label.setOpenExternalLinks(True); layout.addWidget(link_label)
+                link_label.setOpenExternalLinks(True)
+                link_label.setAlignment(Qt.AlignCenter)
+                layout.addWidget(link_label)
+        
         dialog.exec_()
         
     def show_readme_dialog(self):
         dialog = QDialog(self); dialog.setWindowTitle("Help / Readme"); dialog.resize(600, 500)
         layout = QVBoxLayout(dialog); text_edit = QTextEdit(); text_edit.setReadOnly(True)
         try:
-            with open("readme.txt", 'r', encoding='utf-8') as f: text_edit.setPlainText(f.read())
+            with open(resource_path("readme.txt"), 'r', encoding='utf-8') as f: text_edit.setPlainText(f.read()) # MODIFIED
         except FileNotFoundError:
             text_edit.setPlainText("readme.txt not found.")
         layout.addWidget(text_edit); dialog.exec_()
@@ -720,7 +771,7 @@ def check_dependencies():
 
 if __name__ == "__main__":
     check_dependencies()
-    parser = argparse.ArgumentParser(description="OpenRailsLink - Advanced Controller.")
+    parser = argparse.ArgumentParser(description="Open Rails Advanced Controller.")
     parser.add_argument("--profile", help="Path to an XML profile to load on startup.")
     args = parser.parse_args()
     app = QApplication(sys.argv); window = MainAppWindow(profile_path=args.profile); window.show(); sys.exit(app.exec_())
