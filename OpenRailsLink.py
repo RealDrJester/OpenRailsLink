@@ -166,7 +166,8 @@ class LauncherEditor(QDialog):
 class MainAppWindow(QMainWindow):
     def __init__(self, profile_path=None):
         super().__init__()
-        self.setWindowTitle("OpenRailsLink"); self.setGeometry(100, 100, 1440, 800); self.setStyleSheet(STYLE_SHEET)
+        # MODIFIED: Widened the window
+        self.setWindowTitle("OpenRailsLink"); self.setGeometry(100, 100, 1600, 800); self.setStyleSheet(STYLE_SHEET)
         self.bindings = {}; self.gui_controls = {}; self.gui_labels = {}; self.config = {}
         self.current_profile_path = None; self.active_cab_controls = []
         self.slider_last_values = {}
@@ -251,6 +252,7 @@ class MainAppWindow(QMainWindow):
         icon_path = resource_path("icon.png") # MODIFIED: Use helper function
         if os.path.exists(icon_path):
             pixmap = QPixmap(icon_path)
+            # Resize the icon to be 96x96 pixels, keeping its aspect ratio.
             icon_label.setPixmap(pixmap.scaled(96, 96, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         icon_label.setAlignment(Qt.AlignCenter)
         sliders_main_layout.addWidget(icon_label)
@@ -259,15 +261,19 @@ class MainAppWindow(QMainWindow):
         
         button_tabs = QTabWidget()
         button_tabs.setUsesScrollButtons(False)
+        # MODIFIED: Added 'camera' and 'debug' categories to display new controls
         categories = {
             "cab": ("Cab Controls", QVBoxLayout()), "brakes": ("Brake Systems", QVBoxLayout()), 
             "engine_electric": ("Engine (Electric)", QVBoxLayout()), "engine_diesel": ("Engine (Diesel)", QVBoxLayout()),
-            "engine_steam": ("Engine (Steam)", QVBoxLayout()), "game": ("Game & Views", QGridLayout())
+            "engine_steam": ("Engine (Steam)", QVBoxLayout()), "game": ("Game", QGridLayout()),
+            "camera": ("Cameras", QGridLayout()), "debug": ("Debug", QGridLayout())
         }
         for cat, (title, layout) in categories.items():
             tab = QWidget(); tab.setLayout(layout); button_tabs.addTab(tab, title)
 
         game_row, game_col = 0, 0
+        camera_row, camera_col = 0, 0
+        debug_row, debug_col = 0, 0
         for id, definition in CONTROL_DEFINITIONS.items():
             if definition['type'] == 'button':
                 btn = QPushButton(definition['desc'])
@@ -282,10 +288,19 @@ class MainAppWindow(QMainWindow):
                     btn.pressed.connect(partial(self.handle_button_press, id))
 
                 style = definition.get("style", "cab")
+                # MODIFIED: Logic to place buttons in the new tabs
                 if style == "game":
                     categories[style][1].addWidget(btn, game_row, game_col)
                     game_col += 1
                     if game_col > 1: game_col = 0; game_row += 1
+                elif style == "camera":
+                    categories[style][1].addWidget(btn, camera_row, camera_col)
+                    camera_col += 1
+                    if camera_col > 1: camera_col = 0; camera_row += 1
+                elif style == "debug":
+                    categories[style][1].addWidget(btn, debug_row, debug_col)
+                    debug_col += 1
+                    if debug_col > 1: debug_col = 0; debug_row += 1
                 elif style in categories:
                     categories[style][1].addWidget(btn)
                 else:
@@ -328,23 +343,14 @@ class MainAppWindow(QMainWindow):
     def on_connection_status_changed(self, is_connected, server_data):
         if is_connected:
             self.status_label.setText("CONNECTED"); self.status_label.setObjectName("status_label_ok"); self.log_message("Connection established.", "APP")
-            server_active_button_ids = set(server_data)
             
-            self.gui_controls['COMBINED_THROTTLE'].setEnabled(True)
-            
+            # MODIFIED: Always enable all buttons on connect
             for our_id, definition in CONTROL_DEFINITIONS.items():
                 widget = self.gui_controls.get(our_id)
-                if not widget or our_id == 'COMBINED_THROTTLE': continue
-
-                # Horn and Bell are special cases; they are always considered available.
-                if our_id in ['HORN', 'BELL']:
+                if not widget: continue
+                if definition.get('type') == 'button':
                     widget.setEnabled(True)
-                    continue
-
-                if 'id' in definition:
-                    command_id = definition.get('id')
-                    is_active = any(sub_id in server_active_button_ids for sub_id in command_id) if isinstance(command_id, list) else command_id in server_active_button_ids
-                    widget.setEnabled(is_active)
+            self.gui_controls['COMBINED_THROTTLE'].setEnabled(True)
         else:
             self.status_label.setText("DISCONNECTED"); self.status_label.setObjectName("status_label_fail")
             error_msg = server_data[0] if isinstance(server_data, list) and server_data else "Connection lost."
@@ -637,14 +643,13 @@ class MainAppWindow(QMainWindow):
 
     def load_app_config(self):
         try:
-            with open(resource_path("config.json"), 'r') as f: self.config = json.load(f) # MODIFIED
+            with open(resource_path("config.json"), 'r') as f: self.config = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             self.log_message("config.json not found or invalid. Creating default config.", "WARN")
             self.config = {"settings": {"default_profile_path": "","launcher_profiles": []},"about": {"title": "About", "text": "Default config."}}; self.save_app_config()
             
     def save_app_config(self):
         try:
-            # MODIFIED: Logic to save config next to exe when compiled
             if getattr(sys, 'frozen', False):
                 path = os.path.join(os.path.dirname(sys.executable), "config.json")
             else:
@@ -660,9 +665,9 @@ class MainAppWindow(QMainWindow):
     def show_about_dialog(self):
         about_info = self.config.get("about", {}); dialog = QDialog(self); dialog.setWindowTitle(about_info.get("title", "About"))
         layout = QVBoxLayout(dialog)
-        
+
         icon_label = QLabel()
-        icon_path = resource_path("icon.png") # MODIFIED: Use helper function
+        icon_path = resource_path("icon.png") # MODIFIED
         if os.path.exists(icon_path):
             pixmap = QPixmap(icon_path)
             icon_label.setPixmap(pixmap.scaled(128, 128, Qt.KeepAspectRatio, Qt.SmoothTransformation))

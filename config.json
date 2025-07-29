@@ -16,14 +16,14 @@
     ]
   },
   "about": {
-    "title": "About OpenRailsLink Controller ",
+    "title": "About OpenRailsLink - Controller",
     "version": "1.0",
     "date": "2025-07-26",
-    "author": "DrJester",
-    "text": "This application provides an advanced control interface for the Open Rails simulator, allowing for the use of multiple joystick/HID devices with fully customizable bindings.",
-    "link1_text": "Visit my work:",
+    "author": "Dr.Jester",
+    "text": "This application provides an advanced control interface for OpenRails, allowing for the use of multiple joystick/HID devices with fully customizable bindings. For Ede.",
+    "link1_text": "Visit My Projects",
     "link1_url": "https://linktr.ee/DrJester",
     "link2_text": "View Project on GitHub",
-    "link2_url": "https://github.com/RealDrJester/"
+    "link2_url": "https://github.com/RealDrJester/OpenRailsLink/"
   }
 }

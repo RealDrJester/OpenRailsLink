@@ -37,3 +37,5 @@ This is the help and instructions file for the Open Rails Advanced Controller.
 3. "Instrument Lights" sends Pantograph 1. 
 4. Can't seem to find a way to add other joysticks, like Thrustmaster MFD1. But At least Saitek Switch Panel works. 
 5. I do not own other Saitek panels, so I cannot add or test them. This will be up to you. 
+6. Some buttons sent by the program will cause the game to crash. Either because the ID is wrong, or the game is not prepared to receive them. Caution is advised when clicking them randomly.
+7. Some IDs seems not to match. Until I find the proper IDs, it will be left based on what the AI found. Like "Instrument Lights" raises and lowers the Pantograph. 

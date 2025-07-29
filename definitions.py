@@ -30,31 +30,35 @@ CONTROL_DEFINITIONS = {
     "DOOR_RIGHT":       {"type": "button", "style": "door", "id": 153, "desc": "Right Door"},
     "LIGHT":            {"type": "button", "id": 155, "desc": "Cab Light", "behavior": "toggle"},
     "LIGHTS":           {"type": "button", "id": 156, "desc": "Instrument Lights", "behavior": "toggle"},
-
+    
     # -- ENGINE CONTROLS (ELECTRIC) --
-    "BATTERY":          {"type": "button", "style": "engine_electric", "id": 162, "desc": "Battery Switch"},
-    "MASTER_KEY":       {"type": "button", "style": "engine_electric", "id": 164, "desc": "Master Key"},
-    "PANTOGRAPH":       {"type": "button", "style": "engine_electric", "id": 166, "desc": "Pantograph 1"},
-    "PANTOGRAPH2":      {"type": "button", "style": "engine_electric", "id": 167, "desc": "Pantograph 2"},
+    "BATTERY":          {"type": "button", "style": "engine_electric", "id": 162, "desc": "Battery Switch", "behavior": "toggle"},
+    "MASTER_KEY":       {"type": "button", "style": "engine_electric", "id": 164, "desc": "Master Key", "behavior": "toggle"},
+    "PANTOGRAPH":       {"type": "button", "style": "engine_electric", "id": 156, "desc": "Pantograph 1", "behavior": "toggle"},
+    "PANTOGRAPH2":      {"type": "button", "style": "engine_electric", "id": 167, "desc": "Pantograph 2", "behavior": "toggle"},
     "CIRCUIT_BREAKER":  {"type": "button", "style": "engine_electric", "id": 168, "desc": "Circuit Breaker"},
 
     # -- ENGINE CONTROLS (DIESEL) --
-    "DIESEL_PLAYER":    {"type": "button", "style": "engine_diesel", "id": 170, "desc": "Diesel (Player)"},
-    "DIESEL_HELPER":    {"type": "button", "style": "engine_diesel", "id": 171, "desc": "Diesel (Helper)"},
+    "ENGINE_START":     {"type": "button", "style": "engine_diesel", "id": 170, "desc": "Engine Start/Stop", "behavior": "toggle"},
+    "ENGINE_STOP":      {"type": "button", "style": "engine_diesel", "id": 171, "desc": "Helper Engine Start/Stop", "behavior": "toggle"},
     "TRACTION_CUTOFF":  {"type": "button", "style": "engine_diesel", "id": 172, "desc": "Traction Cut-Off"},
 
-    # -- STEAM CONTROLS --
+    # -- ENGINE CONTROLS (STEAM) --
     "CYLINDER_COCKS":   {"type": "button", "style": "engine_steam", "id": 190, "desc": "Cylinder Cocks"},
+    "STEAM_BLOWER":     {"type": "button", "style": "engine_steam", "id": 191, "desc": "Blower"},
+    "STEAM_INJECTOR1":  {"type": "button", "style": "engine_steam", "id": 192, "desc": "Live Steam Injector"},
+    "STEAM_INJECTOR2":  {"type": "button", "style": "engine_steam", "id": 193, "desc": "Exhaust Steam Injector"},
 
     # -- BRAKE SYSTEMS --
     "HANDBRAKE":        {"type": "button", "style": "brakes", "id": [184, 185], "desc": "Handbrake"},
     "BRAKE_HOSE":       {"type": "button", "style": "brakes", "id": [186, 187], "desc": "Brake Hose"},
     "RETAINERS":        {"type": "button", "style": "brakes", "id": [188, 189], "desc": "Retainers"},
+    "BAIL_OFF":         {"type": "button", "id": 183, "desc": "Bail-Off Independent Brake", "style": "brakes"},
 
     # -- GAME & VIEW CONTROLS --
     "CHANGE_CAB":       {"type": "button", "style": "game", "id": 2, "desc": "Change Cab"},
     "MANUAL_SWITCH":    {"type": "button", "style": "game", "id": 6, "desc": "Manual Switch"},
-    "AUTOPILOT":        {"type": "button", "style": "game", "id": 15, "desc": "Autopilot"},
+    "AUTOPILOT":        {"type": "button", "style": "game", "id": 25, "desc": "Autopilot"},
     "HUD":              {"type": "button", "style": "game", "id": 30, "desc": "HUD"},
     "MAP":              {"type": "button", "style": "game", "id": 17, "desc": "Map"},
     "TRACK_MONITOR":    {"type": "button", "style": "game", "id": 29, "desc": "Track Monitor"},
@@ -68,4 +72,26 @@ CONTROL_DEFINITIONS = {
     "SWITCH_AHEAD":     {"type": "button", "style": "game", "id": 7, "desc": "Facing Switch Ahead"},
     "SWITCH_BEHIND":    {"type": "button", "style": "game", "id": 8, "desc": "Facing Switch Behind"},
     "CLEAR_SIGNAL":     {"type": "button", "style": "game", "id": 21, "desc": "Clear Signal Forward"},
+
+    # -- CAMERAS --
+    "CAB_CAMERA":       {"type": "button", "style": "camera", "id": 3, "desc": "Cab Camera"},
+    "EXTERNAL_CAMERA":  {"type": "button", "style": "camera", "id": 4, "desc": "External Camera"},
+    "PASSENGER_CAMERA": {"type": "button", "style": "camera", "id": 5, "desc": "Passenger Camera"},
+    "HEADOUT_CAMERA":   {"type": "button", "style": "camera", "id": 10, "desc": "Head Out Camera"},
+    "TRACKSIDE_CAMERA": {"type": "button", "style": "camera", "id": 11, "desc": "Trackside Camera"},
+    "YARD_CAMERA":      {"type": "button", "style": "camera", "id": 12, "desc": "Yard Camera"},
+    "CAR_CAMERA":       {"type": "button", "style": "camera", "id": 13, "desc": "Car Camera"},
+    "FREE_CAMERA":      {"type": "button", "style": "camera", "id": 14, "desc": "Free Camera"},
+
+    # -- SIMULATION --
+    "PAUSE":            {"type": "button", "style": "game", "id": 1, "desc": "Pause Simulation", "behavior": "toggle"},
+    "SAVE":             {"type": "button", "style": "game", "id": 22, "desc": "Save Game"},
+    "QUIT":             {"type": "button", "style": "game", "id": 23, "desc": "Quit Game"},
+
+    # -- DEBUG --
+    "DEBUG_OVERLAY":    {"type": "button", "style": "debug", "id": 24, "desc": "Toggle Debug Overlay"},
+    "DEBUG_WIREFRAME":  {"type": "button", "style": "debug", "id": 25, "desc": "Toggle Debug Wireframe"},
+    "DEBUG_NORMALS":    {"type": "button", "style": "debug", "id": 26, "desc": "Toggle Debug Normals"},
+    "DEBUG_TANGENTS":   {"type": "button", "style": "debug", "id": 27, "desc": "Toggle Debug Tangents"},
+    "DEBUG_AABB":       {"type": "button", "style": "debug", "id": 28, "desc": "Toggle Debug AABB"},
 }
