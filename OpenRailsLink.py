@@ -1,5 +1,6 @@
 # gui.py
 import sys, json, argparse, os, subprocess, importlib
+import numpy # FIX: Prevents a runtime error in compiled EXE by initializing numpy early.
 from lxml import etree
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QTabWidget,
                              QListWidget, QPushButton, QLabel, QLineEdit, QSlider, QGroupBox,
