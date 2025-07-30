@@ -341,16 +341,26 @@ class MainAppWindow(QMainWindow):
         timestamp = QDateTime.currentDateTime().toString("HH:mm:ss.zzz"); self.debug_log.append(f"[{timestamp}] [{source}] {text}")
 
     def on_connection_status_changed(self, is_connected, server_data):
+        # THIS ENTIRE FUNCTION IS REPLACED WITH THE OLDER, CORRECT LOGIC
         if is_connected:
             self.status_label.setText("CONNECTED"); self.status_label.setObjectName("status_label_ok"); self.log_message("Connection established.", "APP")
+            server_active_button_ids = set(server_data)
             
-            # MODIFIED: Always enable all buttons on connect
+            self.gui_controls['COMBINED_THROTTLE'].setEnabled(True)
+            
             for our_id, definition in CONTROL_DEFINITIONS.items():
                 widget = self.gui_controls.get(our_id)
-                if not widget: continue
-                if definition.get('type') == 'button':
+                if not widget or our_id == 'COMBINED_THROTTLE': continue
+
+                # Horn and Bell are special cases; they are always considered available.
+                if our_id in ['HORN', 'BELL']:
                     widget.setEnabled(True)
-            self.gui_controls['COMBINED_THROTTLE'].setEnabled(True)
+                    continue
+
+                if 'id' in definition:
+                    command_id = definition.get('id')
+                    is_active = any(sub_id in server_active_button_ids for sub_id in command_id) if isinstance(command_id, list) else command_id in server_active_button_ids
+                    widget.setEnabled(is_active)
         else:
             self.status_label.setText("DISCONNECTED"); self.status_label.setObjectName("status_label_fail")
             error_msg = server_data[0] if isinstance(server_data, list) and server_data else "Connection lost."
