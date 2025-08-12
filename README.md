@@ -26,6 +26,8 @@ A versatile and powerful control interface for the Open Rails simulator, designe
 
    *Integrated Game Launcher: Configure and launch different Open Rails installations or profiles directly from the application.
 
+   * openrailslink.exe --profile "your/profile/address.xml" as argument command to load your favourite profile instantly.
+
 --- ⚙️ Requirements ---
 
 Before you begin, ensure you have the following installed:
