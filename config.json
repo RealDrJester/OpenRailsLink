@@ -1,18 +1,69 @@
 {
   "settings": {
-    "default_profile_path": "F:/#devkit/#CONTROLLER/OpenRailsWebControl/OpenRails1.xml",
+    "default_profile_path": "F:/#devkit/#MYPROGRAMS/OpenRailsWebControl/OpenRails1.xml",
     "openrails_executable_path": "G:/##OPENRAILS##/Games/OR_NewYear_MG/OpenRails64.exe",
     "launcher_profiles": []
   },
+  "trackir_settings": {
+    "enable_extra_cameras": false
+  },
   "about": {
     "title": "About OpenRailsLink - Controller",
-    "version": "1.2",
-    "date": "2025-07-26",
+    "version": "2.0",
+    "date": "2025-12-18",
     "author": "Dr.Jester",
     "text": "This application provides an advanced control interface for OpenRails, allowing for the use of multiple joystick/HID devices with fully customizable bindings. For Ede.",
     "link1_text": "Visit My Projects",
     "link1_url": "https://linktr.ee/DrJester",
     "link2_text": "View Project on GitHub",
     "link2_url": "https://github.com/RealDrJester/OpenRailsLink/"
+  },
+  "trackir_cab": {
+    "aob": "?? ?? ?? ?? 00 00 00 00 00 ?? ?? 40 ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 01 00 00 00",
+    "radius": 10.0,
+    "x_limit": 2.7,
+    "y_limit": 1.5,
+    "forward_backward_add": 0.6,
+    "up_down_add": 0.5,
+    "left_right_add": 0.6,
+    "enable_camera_movement": true,
+    "force_write_when_inactive": false,
+    "x_offset": "c",
+    "y_offset": "0",
+    "forward_backward_offset": "6c",
+    "up_down_offset": "68",
+    "left_right_offset": "64"
+  },
+  "trackir_external": {
+    "aob": "?? ?? ?? ?? 00 00 00 00 00 ?? ?? 40 ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 01 00 00 00",
+    "radius": 10.0,
+    "x_limit": 2.7,
+    "y_limit": 1.5,
+    "forward_backward_add": 0.6,
+    "up_down_add": 0.5,
+    "left_right_add": 0.6,
+    "enable_camera_movement": true,
+    "force_write_when_inactive": false,
+    "x_offset": "c",
+    "y_offset": "0",
+    "forward_backward_offset": "6c",
+    "up_down_offset": "68",
+    "left_right_offset": "64"
+  },
+  "trackir_interior": {
+    "aob": "?? ?? ?? ?? 00 00 00 00 00 ?? ?? 40 ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 01 00 00 00",
+    "radius": 10.0,
+    "x_limit": 2.7,
+    "y_limit": 1.5,
+    "forward_backward_add": 0.6,
+    "up_down_add": 0.5,
+    "left_right_add": 0.6,
+    "enable_camera_movement": true,
+    "force_write_when_inactive": false,
+    "x_offset": "c",
+    "y_offset": "0",
+    "forward_backward_offset": "6c",
+    "up_down_offset": "68",
+    "left_right_offset": "64"
   }
 }

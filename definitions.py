@@ -4,7 +4,24 @@
 # ON/OFF state behavior, similar to the Sander.
 CONTROL_DEFINITIONS = {
     # -- VIRTUAL CONTROLS --
+    "TOGGLE_COMBINED_THROTTLE": {"type": "button", "desc": "Toggle Combined Throttle Mode", "behavior": "virtual"},
+    "TOGGLE_INVERT_COMBINED": {"type": "button", "desc": "Toggle Invert Combined Axis", "behavior": "virtual"},
     "COMBINED_THROTTLE": {"type": "slider", "range": [-100, 100], "desc": "Combined Throttle / Brake"},
+    
+    # -- TRACKIR VIRTUAL CONTROLS --
+    "TOGGLE_TRACKIR": {"type": "button", "desc": "Toggle TrackIR Writer (All Cameras)", "behavior": "virtual"},
+    "START_CAB_WRITER": {"type": "button", "desc": "Start Cab Camera Writer", "behavior": "virtual"},
+    "STOP_CAB_WRITER": {"type": "button", "desc": "Stop Cab Camera Writer", "behavior": "virtual"},
+    "START_EXTERNAL_WRITER": {"type": "button", "desc": "Start External Camera Writer", "behavior": "virtual"},
+    "STOP_EXTERNAL_WRITER": {"type": "button", "desc": "Stop External Camera Writer", "behavior": "virtual"},
+    "START_INTERIOR_WRITER": {"type": "button", "desc": "Start Interior Camera Writer", "behavior": "virtual"},
+    "STOP_INTERIOR_WRITER": {"type": "button", "desc": "Stop Interior Camera Writer", "behavior": "virtual"},
+    "SCAN_CAB_CAMERA": {"type": "button", "desc": "Scan Cab Camera", "behavior": "virtual"},
+    "SCAN_EXTERNAL_CAMERA": {"type": "button", "desc": "Scan External Camera", "behavior": "virtual"},
+    "SCAN_INTERIOR_CAMERA": {"type": "button", "desc": "Scan Interior Camera", "behavior": "virtual"},
+    "RESCAN_CAB_CAMERA": {"type": "button", "desc": "Rescan Cab Camera", "behavior": "virtual"},
+    "RESCAN_EXTERNAL_CAMERA": {"type": "button", "desc": "Rescan External Camera", "behavior": "virtual"},
+    "RESCAN_INTERIOR_CAMERA": {"type": "button", "desc": "Rescan Interior Camera", "behavior": "virtual"},
 
     # -- SLIDERS (CONTINUOUS) --
     "THROTTLE":         {"type": "slider", "range": [0, 100], "desc": "Throttle"},
