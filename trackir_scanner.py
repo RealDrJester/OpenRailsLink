@@ -13,10 +13,18 @@ import argparse
 import os
 import tempfile
 import ctypes
+import psutil
 from pymem.ptypes import RemotePointer
 
 PROCESS_NAME = "RunActivity.exe"
 RADIUS_OFFSET = 0x34 # Offset from AOB start to the "Radius" float value.
+
+def is_parent_alive(parent_pid):
+    """Check if parent process is still running"""
+    try:
+        return psutil.pid_exists(parent_pid)
+    except:
+        return False
 
 def convert_aob_string_to_pattern(aob_string):
     """
@@ -54,7 +62,8 @@ class CameraScanner:
         self.radius_threshold = radius_threshold
         self.pid = 0
         self.my_pid = os.getpid()
-    
+        self.parent_pid = os.getppid()
+
     def find_pattern_in_buffer(self, buffer, base_address):
         """
         FAST pattern matcher with pre-filtering
@@ -330,6 +339,12 @@ class CameraScanner:
         print(f"[Scanner-{self.camera_type}] Entering monitoring loop...", flush=True)
         while self.running:
             try:
+                # Check if parent process (OpenRailsLink) is still alive
+                if not is_parent_alive(self.parent_pid):
+                    print(f"[Scanner-{self.camera_type}] Parent process died - shutting down", flush=True)
+                    self.running = False
+                    break
+                
                 rescan_flag = os.path.join(tempfile.gettempdir(), f"trackir_scanner_{self.camera_type.lower()}_rescan_{self.my_pid}.flag")
                 if os.path.exists(rescan_flag):
                     print(f"[Scanner-{self.camera_type}] *** RESCAN TRIGGERED ***", flush=True)

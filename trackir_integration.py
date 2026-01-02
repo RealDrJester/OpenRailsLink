@@ -1,4 +1,4 @@
-# trackir_integration_simple.py
+# trackir_integration.py
 # Simplified multi-camera version based on working deprecated code
 
 import ctypes
@@ -18,6 +18,13 @@ import json
 import tempfile
 
 PROCESS_NAME = "RunActivity.exe"
+
+def is_parent_alive(parent_pid):
+    """Check if parent process is still running"""
+    try:
+        return psutil.pid_exists(parent_pid)
+    except:
+        return False
 
 class NPRESULT(Enum):
     NP_OK = 0
@@ -123,6 +130,7 @@ class SimpleTrackIRWriter:
         self.address = int(initial_address, 16) if initial_address and initial_address != "0" else None
         self.running = True
         self.my_pid = os.getpid()
+        self.parent_pid = os.getppid()
         
         # Create Tkinter window once
         self.root = tk.Tk()
@@ -283,6 +291,18 @@ class SimpleTrackIRWriter:
                 
                 # Minimal sleep
                 time.sleep(0.01)
+                
+                # Check parent status less frequently (every ~1 second)
+                if not hasattr(self, '_parent_check_counter'):
+                    self._parent_check_counter = 0
+                self._parent_check_counter += 1
+                
+                if self._parent_check_counter >= 100:  # 100 * 0.01s = 1 second
+                    self._parent_check_counter = 0
+                    if not is_parent_alive(self.parent_pid):
+                        print("[Writer] Parent process died - shutting down")
+                        self.running = False
+                        break
                 
             except KeyboardInterrupt:
                 self.running = False

@@ -1,7 +1,7 @@
 {
   "settings": {
-    "default_profile_path": "F:/#devkit/#MYPROGRAMS/OpenRailsWebControl/OpenRails1.xml",
-    "openrails_executable_path": "G:/##OPENRAILS##/Games/OR_NewYear_MG/OpenRails64.exe",
+    "default_profile_path": "",
+    "openrails_executable_path": "",
     "launcher_profiles": []
   },
   "trackir_settings": {
