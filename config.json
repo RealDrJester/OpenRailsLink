@@ -9,7 +9,7 @@
   },
   "about": {
     "title": "About OpenRailsLink - Controller",
-    "version": "2.0",
+    "version": "2.1",
     "date": "2025-12-18",
     "author": "Dr.Jester",
     "text": "This application provides an advanced control interface for OpenRails, allowing for the use of multiple joystick/HID devices with fully customizable bindings. For Ede.",
